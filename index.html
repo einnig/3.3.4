@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.3.4. Samtal: 121 - 130 algengustu orðin</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            background-color: #f0f4f8; 
+            margin: 0;
+            padding: 2vh 5vw; 
+            min-height: 95vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .container { 
+            width: 100%; 
+            max-width: 1200px; 
+            background: white; 
+            padding: 30px 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            max-height: 100%;
+            overflow-y: auto;
+        }
+        h1 {
+            color: #1a73e8;
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        /* Framvindustika */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 20px;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #34a853;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+        
+        #counter { font-size: 1.2em; color: #666; font-weight: bold; margin-bottom: 10px; }
+
+        .lang-selector {
+            margin-bottom: 20px;
+            background: #fff3e0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: inline-block;
+            border: 1px solid #ffcc80;
+        }
+
+        .lang-selector select {
+            padding: 8px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            margin-left: 10px;
+            max-width: 300px;
+        }
+        
+        #target { 
+            font-size: 4em; 
+            margin: 10px 0; 
+            color: #222; 
+            font-weight: bold;
+        }
+        
+        #is-explanation {
+            font-size: 1.2em;
+            color: #333;
+            background-color: #e8f0fe;
+            padding: 20px 30px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+            max-width: 85%;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .btn { 
+            padding: 12px 25px; 
+            font-size: 1.2em; 
+            margin: 5px; 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 8px; 
+            background-color: #1a73e8; 
+            color: white; 
+            transition: 0.3s; 
+            font-weight: bold;
+        }
+        .btn:hover:not(:disabled) { background-color: #1557b0; transform: scale(1.02); }
+        .recording { background-color: #d93025; animation: pulse 1.5s infinite; }
+        .recording:hover { background-color: #b3140b; }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        #media-box { 
+            font-size: 1.1em; 
+            color: #444; 
+            text-align: left; 
+            background: #f8fbff; 
+            padding: 20px 30px; 
+            border-radius: 12px; 
+            line-height: 1.6; 
+            border-left: 6px solid #1a73e8; 
+            margin-top: 15px;
+            display: inline-block;
+            min-width: 70%;
+            max-width: 85%;
+        }
+        #spoken {
+            margin-top: 15px; 
+            font-size: 1.4em;
+            font-style: italic; 
+            color: #555;
+        }
+        #result {
+            font-weight: bold; 
+            font-size: 1.8em; 
+            margin-top: 5px; 
+            color: #1a73e8;
+        }
+        .nav-btns { margin-top: 20px; }
+        
+        /* Fyrir nafnainnslátt */
+        #studentName {
+            font-size: 1.5em;
+            padding: 10px;
+            margin: 20px 0;
+            width: 80%;
+            max-width: 400px;
+            border: 2px solid #1a73e8;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .feedback-note {
+            margin-top: 40px;
+            font-size: 0.95em;
+            color: #555;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        .feedback-note a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .feedback-note a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <h1>3.3.4. Samtal: 121 - 130 algengustu orðin</h1>
+    <p style="color: #666; font-size: 1.1em; margin-bottom: 25px;">Spurningar fyrir munnlega æfingu. 💻 🎧</p>
+    
+    <div class="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div class="lang-selector">
+        <label for="languageSelect"><b>🌍 Tungumál:</b></label>
+        <select id="languageSelect" onchange="updateUI()">
+            <option value="" selected disabled>Veldu tungumál...</option>
+            <option value="ar">Arabíska – العربية</option>
+            <option value="en">Enska – English</option>
+            <option value="tl">Filippseyska – Tagalog</option>
+            <option value="fr">Franska – Français</option>
+            <option value="nl">Hollenska – Nederlands</option>
+            <option value="it">Ítalska – Italiano</option>
+            <option value="ja">Japanska – 日本語</option>
+            <option value="zh">Kínverska – 中文</option>
+            <option value="lv">Lettneska – Latviešu</option>
+            <option value="lt">Litháíska – Lietuvių</option>
+            <option value="no">Norska – Norsk</option>
+            <option value="fa">Persneska – فارسی</option>
+            <option value="pt">Portúgalska – Português</option>
+            <option value="pl">Pólska – Polski</option>
+            <option value="ro">Rúmenska – Română</option>
+            <option value="ru">Rússneska – Русский</option>
+            <option value="es">Spænska – Español</option>
+            <option value="sv">Sænska – Svenska</option>
+            <option value="th">Tælenska – ภาษาไทย</option>
+            <option value="de">Þýska – Deutsch</option>
+            <option value="uk">Úkraínska – Українська</option>
+            <option value="vi">Víetnamska – Tiếng Việt</option>
+        </select>
+    </div>
+
+    <div id="counter"></div>
+    
+    <div id="target"></div>
+    <div id="is-explanation"></div>
+    <br>
+    <button id="record-btn" class="btn" onclick="toggleRecord()">🎤 Tala</button>
+    
+    <div id="spoken"></div>
+    <div id="result"></div>
+
+    <div id="media-box"><i>Veldu tungumál úr listanum að ofan til að sjá þýðingu.</i></div>
+
+    <div class="nav-btns">
+        <button class="btn" style="background-color: #5f6368;" onclick="prevExercise()">⬅️ Fyrri</button>
+        <button class="btn" style="background-color: #5f6368;" onclick="nextExercise()">Næsta ➡️</button>
+    </div>
+
+    <div class="feedback-note">
+        Vinsamlegast sendið ábendingar á <a href="mailto:dgu@fb.is">dgu@fb.is</a>
+    </div>
+</div>
+
+<script>
+const exerciseData = [
+    { 
+        text: "öðrum", 
+        is_exp: "<b>1. Hjálpar þú oft öðrum?</b><br><br>Já, ég hjálpa oft öðrum í skólanum.<br><br>Nei, ég hjálpa ekki mjög oft öðrum.<br><br>Já, ég hjálpa stundum fjölskyldunni minni.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>1. Do you often help others?</b><br><br>Yes, I often help others at school.<br><br>No, I don't help others very often.<br><br>Yes, I sometimes help my family.<br><br>Another answer.",
+            "pl": "<b>1. Czy często pomagasz innym?</b><br><br>Tak, często pomagam innym w szkole.<br><br>Nie, nie za często pomagam innym.<br><br>Tak, czasami pomagam mojej rodzinie.<br><br>Inna odpowiedź.",
+            "es": "<b>1. ¿Ayudas a menudo a los demás?</b><br><br>Sí, a menudo ayudo a otros en la escuela.<br><br>No, no ayudo a los demás muy a menudo.<br><br>Sí, a veces ayudo a mi familia.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>1. هل تساعد الآخرين كثيرًا؟</b><br><br>نعم، أنا أساعد الآخرين كثيرًا في المدرسة.<br><br>لا، أنا لا أساعد الآخرين كثيرًا.<br><br>نعم، أحيانًا أساعد عائلتي.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>1. Чи часто ти допомагаєш іншим?</b><br><br>Так, я часто допомагаю іншим у школі.<br><br>Ні, я не дуже часто допомагаю іншим.<br><br>Так, я іноді допомагаю своїй родині.<br><br>Інша відповідь.",
+            "tl": "<b>1. Madalas ka bang tumulong sa iba?</b><br><br>Oo, madalas akong tumulong sa iba sa paaralan.<br><br>Hindi, hindi ako masyadong madalas tumulong sa iba.<br><br>Oo, minsan tinutulungan ko ang aking pamilya.<br><br>Ibang sagot.",
+            "vi": "<b>1. Bạn có thường xuyên giúp đỡ người khác không?</b><br><br>Có, tôi thường giúp đỡ người khác ở trường.<br><br>Không, tôi không thường xuyên giúp đỡ người khác lắm.<br><br>Có, đôi khi tôi giúp đỡ gia đình mình.<br><br>Câu trả lời khác.",
+            "lt": "<b>1. Ar dažnai padedi kitiems?</b><br><br>Taip, mokykloje dažnai padedu kitiems.<br><br>Ne, aš nelabai dažnai padedu kitiems.<br><br>Taip, aš kartais padedu savo šeimai.<br><br>Kitas atsakymas.",
+            "lv": "<b>1. Vai tu bieži palīdzi citiem?</b><br><br>Jā, es skolā bieži palīdzu citiem.<br><br>Nē, es citiem nepalīdzu ļoti bieži.<br><br>Jā, es dažreiz palīdzu savai ģimenei.<br><br>Cita atbilde.",
+            "ru": "<b>1. Ты часто помогаешь другим?</b><br><br>Да, я часто помогаю другим в школе.<br><br>Нет, я не очень часто помогаю другим.<br><br>Да, иногда я помогаю своей семье.<br><br>Другой ответ.",
+            "th": "<b>1. คุณช่วยเหลือผู้อื่นบ่อยไหม?</b><br><br>ใช่ ฉันมักจะช่วยเหลือผู้อื่นที่โรงเรียน<br><br>ไม่ ฉันไม่ค่อยช่วยเหลือผู้อื่นบ่อยนัก<br><br>ใช่ บางครั้งฉันก็ช่วยครอบครัวของฉัน<br><br>คำตอบอื่น",
+            "de": "<b>1. Hilfst du anderen oft?</b><br><br>Ja, ich helfe anderen oft in der Schule.<br><br>Nein, ich helfe anderen nicht sehr oft.<br><br>Ja, manchmal helfe ich meiner Familie.<br><br>Andere Antwort.",
+            "fr": "<b>1. Aides-tu souvent les autres ?</b><br><br>Oui, j'aide souvent les autres à l'école.<br><br>Non, je n'aide pas très souvent les autres.<br><br>Oui, j'aide parfois ma famille.<br><br>Autre réponse."
+        }
+    },
+    { 
+        text: "segir", 
+        is_exp: "<b>2. Hvað segir þú gott í dag?</b><br><br>Ég segi allt mjög gott í dag, takk.<br><br>Ég segi allt fínt í dag.<br><br>Ég segi allt ágætt, en ég er svolítið þreytt/ur.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>2. How are you doing today?</b><br><br>I'm doing very well today, thanks.<br><br>I'm doing fine today.<br><br>I'm doing okay, but I'm a little tired.<br><br>Another answer.",
+            "pl": "<b>2. Jak się dzisiaj masz?</b><br><br>Mam się dzisiaj bardzo dobrze, dziękuję.<br><br>U mnie dzisiaj wszystko w porządku.<br><br>Wszystko w porządku, ale jestem trochę zmęczony/a.<br><br>Inna odpowiedź.",
+            "es": "<b>2. ¿Cómo estás hoy?</b><br><br>Estoy muy bien hoy, gracias.<br><br>Estoy bien hoy.<br><br>Estoy bien, pero estoy un poco cansado/a.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>2. كيف حالك اليوم؟</b><br><br>أنا بخير جداً اليوم، شكراً.<br><br>أنا بخير اليوم.<br><br>أنا على ما يرام، لكنني متعب/ة قليلاً.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>2. Як твої справи сьогодні?</b><br><br>Сьогодні в мене все дуже добре, дякую.<br><br>Сьогодні в мене все чудово.<br><br>Все нормально, але я трохи втомився/втомилася.<br><br>Інша відповідь.",
+            "tl": "<b>2. Kamusta ka ngayon?</b><br><br>Mabuti naman ako ngayon, salamat.<br><br>Ayos lang ako ngayon.<br><br>Okay naman, pero medyo pagod ako.<br><br>Ibang sagot.",
+            "vi": "<b>2. Hôm nay bạn thế nào?</b><br><br>Hôm nay tôi rất khỏe, cảm ơn.<br><br>Hôm nay tôi ổn.<br><br>Tôi ổn, nhưng tôi hơi mệt một chút.<br><br>Câu trả lời khác.",
+            "lt": "<b>2. Kaip tau sekasi šiandien?</b><br><br>Man šiandien sekasi labai gerai, ačiū.<br><br>Šiandien man sekasi puikiai.<br><br>Sekasi neblogai, bet esu šiek tiek pavargęs/pavargusi.<br><br>Kitas atsakymas.",
+            "lv": "<b>2. Kā tev šodien klājas?</b><br><br>Man šodien klājas ļoti labi, paldies.<br><br>Man šodien klājas smalki.<br><br>Man klājas labi, bet esmu mazliet noguris/nogurusi.<br><br>Cita atbilde.",
+            "ru": "<b>2. Как твои дела сегодня?</b><br><br>Сегодня у меня все очень хорошо, спасибо.<br><br>Сегодня у меня все отлично.<br><br>Все нормально, но я немного устал(а).<br><br>Другой ответ.",
+            "th": "<b>2. วันนี้คุณเป็นอย่างไรบ้าง?</b><br><br>วันนี้ฉันสบายดีมาก ขอบคุณ<br><br>วันนี้ฉันสบายดี<br><br>ก็โอเค แต่ฉันรู้สึกเหนื่อยเล็กน้อย<br><br>คำตอบอื่น",
+            "de": "<b>2. Wie geht es dir heute?</b><br><br>Mir geht es heute sehr gut, danke.<br><br>Mir geht es heute gut.<br><br>Mir geht es ganz gut, aber ich bin ein bisschen müde.<br><br>Andere Antwort.",
+            "fr": "<b>2. Comment vas-tu aujourd'hui ?</b><br><br>Je vais très bien aujourd'hui, merci.<br><br>Je vais bien aujourd'hui.<br><br>Ça va, mais je suis un peu fatigué(e).<br><br>Autre réponse."
+        }
+    },
+    { 
+        text: "fá", 
+        is_exp: "<b>3. Hvað finnst þér gott að fá þér í hádegismat?</b><br><br>Mér finnst gott að fá mér samloku og djús.<br><br>Mér finnst gott að fá mér heitan mat í skólanum.<br><br>Mér finnst gott að fá mér súpu og brauð í hádegismat.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>3. What do you like to have for lunch?</b><br><br>I like to have a sandwich and juice.<br><br>I like to have hot food at school.<br><br>I like to have soup and bread for lunch.<br><br>Another answer.",
+            "pl": "<b>3. Co lubisz jeść na obiad (lunch)?</b><br><br>Lubię zjeść kanapkę i wypić sok.<br><br>Lubię zjeść ciepły posiłek w szkole.<br><br>Lubię zjeść zupę i chleb na obiad.<br><br>Inna odpowiedź.",
+            "es": "<b>3. ¿Qué te gusta tomar para el almuerzo?</b><br><br>Me gusta tomar un sándwich y jugo.<br><br>Me gusta tomar comida caliente en la escuela.<br><br>Me gusta tomar sopa y pan para el almuerzo.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>3. ماذا تحب أن تتناول في الغداء؟</b><br><br>أحب تناول شطيرة وعصير.<br><br>أحب تناول طعام ساخن في المدرسة.<br><br>أحب تناول الحساء والخبز في الغداء.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>3. Що ти любиш їсти на обід?</b><br><br>Я люблю їсти бутерброд і сік.<br><br>Я люблю їсти гарячу їжу в школі.<br><br>Я люблю їсти суп і хліб на обід.<br><br>Інша відповідь.",
+            "tl": "<b>3. Ano ang gusto mong kainin sa tanghalian?</b><br><br>Gusto kong kumain ng sandwich at juice.<br><br>Gusto kong kumain ng mainit na pagkain sa paaralan.<br><br>Gusto kong kumain ng sopas at tinapay sa tanghalian.<br><br>Ibang sagot.",
+            "vi": "<b>3. Bạn thích ăn gì vào bữa trưa?</b><br><br>Tôi thích ăn bánh mì kẹp và nước ép.<br><br>Tôi thích ăn thức ăn nóng ở trường.<br><br>Tôi thích ăn súp và bánh mì vào bữa trưa.<br><br>Câu trả lời khác.",
+            "lt": "<b>3. Ką mėgsti valgyti pietums?</b><br><br>Pietums mėgstu suvalgyti sumuštinį ir išgerti sulčių.<br><br>Mėgstu valgyti šiltą maistą mokykloje.<br><br>Pietums mėgstu valgyti sriubą su duona.<br><br>Kitas atsakymas.",
+            "lv": "<b>3. Ko tev patīk ēst pusdienās?</b><br><br>Man patīk apēst sviestmaizi un sulu.<br><br>Man patīk ēst siltu ēdienu skolā.<br><br>Man pusdienās patīk ēst zupu un maizi.<br><br>Cita atbilde.",
+            "ru": "<b>3. Что ты любишь есть на обед?</b><br><br>Я люблю есть бутерброд и сок.<br><br>Я люблю есть горячую еду в школе.<br><br>Я люблю есть суп и хлеб на обед.<br><br>Другой ответ.",
+            "th": "<b>3. คุณชอบทานอะไรเป็นมื้อเที่ยง?</b><br><br>ฉันชอบทานแซนด์วิชและน้ำผลไม้<br><br>ฉันชอบทานอาหารร้อนที่โรงเรียน<br><br>ฉันชอบทานซุปและขนมปังเป็นมื้อเที่ยง<br><br>คำตอบอื่น",
+            "de": "<b>3. Was isst du gerne zu Mittag?</b><br><br>Ich esse gerne ein Sandwich und trinke Saft.<br><br>Ich esse in der Schule gerne warmes Essen.<br><br>Ich esse zu Mittag gerne Suppe und Brot.<br><br>Andere Antwort.",
+            "fr": "<b>3. Qu'aimes-tu prendre pour le déjeuner ?</b><br><br>J'aime prendre un sandwich et du jus.<br><br>J'aime prendre des plats chauds à l'école.<br><br>J'aime prendre de la soupe et du pain pour le déjeuner.<br><br>Autre réponse."
+        }
+    },
+    { 
+        text: "stað", 
+        is_exp: "<b>4. Á hvaða stað ert þú núna?</b><br><br>Ég er í skólanum núna.<br><br>Ég er heima hjá mér núna.<br><br>Ég er inni í kennslustofu núna.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>4. At what place are you right now?</b><br><br>I am at school right now.<br><br>I am at my home right now.<br><br>I am inside a classroom right now.<br><br>Another answer.",
+            "pl": "<b>4. W jakim miejscu jesteś teraz?</b><br><br>Jestem teraz w szkole.<br><br>Jestem teraz w moim domu.<br><br>Jestem teraz w klasie.<br><br>Inna odpowiedź.",
+            "es": "<b>4. ¿En qué lugar estás ahora mismo?</b><br><br>Estoy en la escuela ahora mismo.<br><br>Estoy en mi casa ahora mismo.<br><br>Estoy dentro de un salón de clases ahora mismo.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>4. في أي مكان أنت الآن؟</b><br><br>أنا في المدرسة الآن.<br><br>أنا في منزلي الآن.<br><br>أنا داخل الفصل الدراسي الآن.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>4. В якому місці ти зараз знаходишся?</b><br><br>Зараз я в школі.<br><br>Зараз я в себе вдома.<br><br>Зараз я в класі.<br><br>Інша відповідь.",
+            "tl": "<b>4. Saang lugar ka ngayon?</b><br><br>Nasa paaralan ako ngayon.<br><br>Nasa bahay ako ngayon.<br><br>Nasa loob ako ng silid-aralan ngayon.<br><br>Ibang sagot.",
+            "vi": "<b>4. Bây giờ bạn đang ở đâu?</b><br><br>Bây giờ tôi đang ở trường.<br><br>Bây giờ tôi đang ở nhà.<br><br>Bây giờ tôi đang ở trong lớp học.<br><br>Câu trả lời khác.",
+            "lt": "<b>4. Kokioje vietoje dabar esi?</b><br><br>Dabar esu mokykloje.<br><br>Dabar esu savo namuose.<br><br>Dabar esu klasėje.<br><br>Kitas atsakymas.",
+            "lv": "<b>4. Kādā vietā tu tagad atrodies?</b><br><br>Es tagad esmu skolā.<br><br>Es tagad esmu savās mājās.<br><br>Es tagad atrodos klasē.<br><br>Cita atbilde.",
+            "ru": "<b>4. В каком месте ты сейчас находишься?</b><br><br>Сейчас я в школе.<br><br>Сейчас я у себя дома.<br><br>Сейчас я в классе.<br><br>Другой ответ.",
+            "th": "<b>4. ตอนนี้คุณอยู่ที่ไหน?</b><br><br>ตอนนี้ฉันอยู่ที่โรงเรียน<br><br>ตอนนี้ฉันอยู่ที่บ้าน<br><br>ตอนนี้ฉันอยู่ในห้องเรียน<br><br>คำตอบอื่น",
+            "de": "<b>4. An welchem Ort bist du gerade?</b><br><br>Ich bin gerade in der Schule.<br><br>Ich bin gerade bei mir zu Hause.<br><br>Ich bin gerade in einem Klassenzimmer.<br><br>Andere Antwort.",
+            "fr": "<b>4. À quel endroit es-tu en ce moment ?</b><br><br>Je suis à l'école en ce moment.<br><br>Je suis chez moi en ce moment.<br><br>Je suis dans une salle de classe en ce moment.<br><br>Autre réponse."
+        }
+    },
+    { 
+        text: "sjá", 
+        is_exp: "<b>5. Hvað heitir bíómyndin sem þig langar mest að sjá (horfa á)?</b><br><br>Myndin sem mig langar að sjá heitir Avatar.<br><br>Mig langar mest að sjá nýju Spiderman myndina.<br><br>Ég veit það ekki, ég horfi ekki oft á bíómyndir.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>5. What is the name of the movie you most want to see (watch)?</b><br><br>The movie I want to see is called Avatar.<br><br>I most want to see the new Spiderman movie.<br><br>I don't know, I don't often watch movies.<br><br>Another answer.",
+            "pl": "<b>5. Jak nazywa się film, który najbardziej chcesz zobaczyć (obejrzeć)?</b><br><br>Film, który chcę zobaczyć, nazywa się Avatar.<br><br>Najbardziej chcę zobaczyć nowy film o Spidermanie.<br><br>Nie wiem, rzadko oglądam filmy.<br><br>Inna odpowiedź.",
+            "es": "<b>5. ¿Cómo se llama la película que más quieres ver (mirar)?</b><br><br>La película que quiero ver se llama Avatar.<br><br>Lo que más quiero ver es la nueva película de Spiderman.<br><br>No sé, no suelo ver películas a menudo.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>5. ما هو اسم الفيلم الذي ترغب في مشاهدته أكثر من غيره؟</b><br><br>الفيلم الذي أريد مشاهدته يسمى أفاتار.<br><br>أريد أكثر شيء مشاهدة فيلم سبايدرمان الجديد.<br><br>لا أعرف، أنا لا أشاهد الأفلام كثيرًا.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>5. Як називається фільм, який ти найбільше хочеш подивитися?</b><br><br>Фільм, який я хочу побачити, називається Аватар.<br><br>Я найбільше хочу подивитися новий фільм про Людину-павука.<br><br>Я не знаю, я не часто дивлюся фільми.<br><br>Інша відповідь.",
+            "tl": "<b>5. Ano ang pamagat ng pelikulang pinakagusto mong panoorin?</b><br><br>Ang pelikulang gusto kong panoorin ay tinatawag na Avatar.<br><br>Pinakagusto kong panoorin ang bagong Spiderman movie.<br><br>Hindi ko alam, hindi ako madalas manood ng mga pelikula.<br><br>Ibang sagot.",
+            "vi": "<b>5. Tên bộ phim mà bạn muốn xem nhất là gì?</b><br><br>Bộ phim tôi muốn xem tên là Avatar.<br><br>Tôi muốn xem bộ phim Spiderman mới nhất.<br><br>Tôi không biết, tôi không thường xuyên xem phim.<br><br>Câu trả lời khác.",
+            "lt": "<b>5. Kaip vadinasi filmas, kurį labiausiai nori pamatyti (žiūrėti)?</b><br><br>Filmas, kurį noriu pamatyti, vadinasi „Avataras“.<br><br>Labiausiai noriu pamatyti naują „Žmogaus-voro“ filmą.<br><br>Nežinau, aš nedažnai žiūriu filmus.<br><br>Kitas atsakymas.",
+            "lv": "<b>5. Kā sauc filmu, kuru tu visvairāk gribi redzēt (skatīties)?</b><br><br>Filma, kuru es gribu redzēt, saucas Avatars.<br><br>Es visvairāk gribu redzēt jauno Zirnekļcilvēka filmu.<br><br>Es nezinu, es reti skatos filmas.<br><br>Cita atbilde.",
+            "ru": "<b>5. Как называется фильм, который ты больше всего хочешь посмотреть?</b><br><br>Фильм, который я хочу посмотреть, называется «Аватар».<br><br>Я больше всего хочу посмотреть новый фильм о Человеке-пауке.<br><br>Я не знаю, я не часто смотрю фильмы.<br><br>Другой ответ.",
+            "th": "<b>5. ภาพยนตร์ที่คุณอยากดูมากที่สุดชื่ออะไร?</b><br><br>ภาพยนตร์ที่ฉันอยากดูชื่อ Avatar<br><br>ฉันอยากดูภาพยนตร์ Spiderman ภาคใหม่มากที่สุด<br><br>ฉันไม่รู้ ฉันไม่ค่อยได้ดูภาพยนตร์<br><br>คำตอบอื่น",
+            "de": "<b>5. Wie heißt der Film, den du am liebsten sehen (anschauen) möchtest?</b><br><br>Der Film, den ich sehen möchte, heißt Avatar.<br><br>Ich möchte am liebsten den neuen Spiderman-Film sehen.<br><br>Ich weiß es nicht, ich schaue nicht oft Filme.<br><br>Andere Antwort.",
+            "fr": "<b>5. Comment s'appelle le film que tu veux le plus voir (regarder) ?</b><br><br>Le film que je veux voir s'appelle Avatar.<br><br>Je veux surtout voir le nouveau film Spiderman.<br><br>Je ne sais pas, je ne regarde pas souvent des films.<br><br>Autre réponse."
+        }
+    },
+    { 
+        text: "okkar", 
+        is_exp: "<b>6. Hvað heitir skólinn okkar?</b><br><br>Skólinn okkar heitir Fjölbrautaskólinn í Breiðholti.<br><br>Hann heitir einfaldlega FB.<br><br>Skólinn okkar heitir Fjölbrautaskólinn í Breiðholti, eða bara FB.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>6. What is the name of our school?</b><br><br>Our school is called Fjölbrautaskólinn í Breiðholti.<br><br>It is simply called FB.<br><br>Our school is called Fjölbrautaskólinn í Breiðholti, or just FB.<br><br>Another answer.",
+            "pl": "<b>6. Jak nazywa się nasza szkoła?</b><br><br>Nasza szkoła nazywa się Fjölbrautaskólinn í Breiðholti.<br><br>Nazywa się po prostu FB.<br><br>Nasza szkoła nazywa się Fjölbrautaskólinn í Breiðholti, lub po prostu FB.<br><br>Inna odpowiedź.",
+            "es": "<b>6. ¿Cómo se llama nuestra escuela?</b><br><br>Nuestra escuela se llama Fjölbrautaskólinn í Breiðholti.<br><br>Se llama simplemente FB.<br><br>Nuestra escuela se llama Fjölbrautaskólinn í Breiðholti, o simplemente FB.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>6. ما اسم مدرستنا؟</b><br><br>تسمى مدرستنا Fjölbrautaskólinn í Breiðholti.<br><br>تسمى ببساطة FB.<br><br>تسمى مدرستنا Fjölbrautaskólinn í Breiðholti، أو ببساطة FB.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>6. Як називається наша школа?</b><br><br>Наша школа називається Fjölbrautaskólinn í Breiðholti.<br><br>Вона просто називається FB.<br><br>Наша школа називається Fjölbrautaskólinn í Breiðholti, або просто FB.<br><br>Інша відповідь.",
+            "tl": "<b>6. Ano ang pangalan ng ating paaralan?</b><br><br>Ang ating paaralan ay tinatawag na Fjölbrautaskólinn í Breiðholti.<br><br>Tinatawag lamang itong FB.<br><br>Ang ating paaralan ay tinatawag na Fjölbrautaskólinn í Breiðholti, o FB na lang.<br><br>Ibang sagot.",
+            "vi": "<b>6. Tên trường của chúng ta là gì?</b><br><br>Trường của chúng ta tên là Fjölbrautaskólinn í Breiðholti.<br><br>Nó đơn giản được gọi là FB.<br><br>Trường của chúng ta tên là Fjölbrautaskólinn í Breiðholti, hoặc chỉ là FB.<br><br>Câu trả lời khác.",
+            "lt": "<b>6. Kaip vadinasi mūsų mokykla?</b><br><br>Mūsų mokykla vadinasi Fjölbrautaskólinn í Breiðholti.<br><br>Ji tiesiog vadinasi FB.<br><br>Mūsų mokykla vadinasi Fjölbrautaskólinn í Breiðholti, arba tiesiog FB.<br><br>Kitas atsakymas.",
+            "lv": "<b>6. Kā sauc mūsu skolu?</b><br><br>Mūsu skolu sauc Fjölbrautaskólinn í Breiðholti.<br><br>To vienkārši sauc par FB.<br><br>Mūsu skolu sauc Fjölbrautaskólinn í Breiðholti, vai vienkārši FB.<br><br>Cita atbilde.",
+            "ru": "<b>6. Как называется наша школа?</b><br><br>Наша школа называется Fjölbrautaskólinn í Breiðholti.<br><br>Она просто называется FB.<br><br>Наша школа называется Fjölbrautaskólinn í Breiðholti, или просто FB.<br><br>Другой ответ.",
+            "th": "<b>6. โรงเรียนของเราชื่ออะไร?</b><br><br>โรงเรียนของเราชื่อ Fjölbrautaskólinn í Breiðholti<br><br>เรียกสั้นๆ ว่า FB<br><br>โรงเรียนของเราชื่อ Fjölbrautaskólinn í Breiðholti หรือแค่ FB<br><br>คำตอบอื่น",
+            "de": "<b>6. Wie heißt unsere Schule?</b><br><br>Unsere Schule heißt Fjölbrautaskólinn í Breiðholti.<br><br>Sie heißt einfach FB.<br><br>Unsere Schule heißt Fjölbrautaskólinn í Breiðholti oder einfach FB.<br><br>Andere Antwort.",
+            "fr": "<b>6. Comment s'appelle notre école ?</b><br><br>Notre école s'appelle Fjölbrautaskólinn í Breiðholti.<br><br>Elle s'appelle simplement FB.<br><br>Notre école s'appelle Fjölbrautaskólinn í Breiðholti, ou juste FB.<br><br>Autre réponse."
+        }
+    },
+    { 
+        text: "orðið", 
+        is_exp: "<b>7. Hvernig skrifar þú orðið sem þér finnst erfiðast að segja á íslensku?</b><br><br>Ég skrifa það Þ-V-O-T-T-A-V-É-L.<br><br>Ég skrifa það K-L-U-K-K-A-N.<br><br>Ég veit ekki hvernig ég skrifa orðið, það er of erfitt.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>7. How do you spell the word that you find hardest to say in Icelandic?</b><br><br>I spell it Þ-V-O-T-T-A-V-É-L (washing machine).<br><br>I spell it K-L-U-K-K-A-N (the clock).<br><br>I don't know how to spell the word, it's too difficult.<br><br>Another answer.",
+            "pl": "<b>7. Jak się pisze (literuje) słowo, które najtrudniej ci wymówić po islandzku?</b><br><br>Piszę to Þ-V-O-T-T-A-V-É-L.<br><br>Piszę to K-L-U-K-K-A-N.<br><br>Nie wiem, jak napisać to słowo, jest zbyt trudne.<br><br>Inna odpowiedź.",
+            "es": "<b>7. ¿Cómo se escribe la palabra que te resulta más difícil de decir en islandés?</b><br><br>La escribo Þ-V-O-T-T-A-V-É-L.<br><br>La escribo K-L-U-K-K-A-N.<br><br>No sé cómo escribir la palabra, es demasiado difícil.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>7. كيف تكتب الكلمة التي تجد صعوبة في نطقها باللغة الآيسلندية؟</b><br><br>أكتبها Þ-V-O-T-T-A-V-É-L.<br><br>أكتبها K-L-U-K-K-A-N.<br><br>لا أعرف كيف أكتب الكلمة، إنها صعبة للغاية.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>7. Як ти пишеш слово, яке тобі найважче вимовити ісландською?</b><br><br>Я пишу його Þ-V-O-T-T-A-V-É-L.<br><br>Я пишу його K-L-U-K-K-A-N.<br><br>Я не знаю, як написати це слово, воно занадто складне.<br><br>Інша відповідь.",
+            "tl": "<b>7. Paano mo isulat ang salitang pinakamahirap mong bigkasin sa Icelandic?</b><br><br>Ibinabaybay ko itong Þ-V-O-T-T-A-V-É-L.<br><br>Ibinabaybay ko itong K-L-U-K-K-A-N.<br><br>Hindi ko alam kung paano isulat ang salita, masyadong mahirap.<br><br>Ibang sagot.",
+            "vi": "<b>7. Bạn viết từ mà bạn cảm thấy khó phát âm nhất trong tiếng Iceland như thế nào?</b><br><br>Tôi viết nó là Þ-V-O-T-T-A-V-É-L.<br><br>Tôi viết nó là K-L-U-K-K-A-N.<br><br>Tôi không biết làm thế nào để viết từ đó, nó quá khó.<br><br>Câu trả lời khác.",
+            "lt": "<b>7. Kaip rašai žodį, kurį tau sunkiausia pasakyti islandiškai?</b><br><br>Aš jį rašau Þ-V-O-T-T-A-V-É-L.<br><br>Aš jį rašau K-L-U-K-K-A-N.<br><br>Nežinau, kaip parašyti tą žodį, jis per sunkus.<br><br>Kitas atsakymas.",
+            "lv": "<b>7. Kā tu raksti to vārdu, kuru tev ir visgrūtāk izrunāt islandiski?</b><br><br>Es to rakstu Þ-V-O-T-T-A-V-É-L.<br><br>Es to rakstu K-L-U-K-K-A-N.<br><br>Es nezinu, kā to vārdu uzrakstīt, tas ir pārāk grūts.<br><br>Cita atbilde.",
+            "ru": "<b>7. Как ты пишешь слово, которое тебе труднее всего произнести по-исландски?</b><br><br>Я пишу его Þ-V-O-T-T-A-V-É-L.<br><br>Я пишу его K-L-U-K-K-A-N.<br><br>Я не знаю, как написать это слово, оно слишком сложное.<br><br>Другой ответ.",
+            "th": "<b>7. คุณสะกดคำที่คุณคิดว่าออกเสียงยากที่สุดในภาษาไอซ์แลนด์อย่างไร?</b><br><br>ฉันสะกดว่า Þ-V-O-T-T-A-V-É-L<br><br>ฉันสะกดว่า K-L-U-K-K-A-N<br><br>ฉันไม่รู้จะเขียนคำนี้ยังไง มันยากเกินไป<br><br>คำตอบอื่น",
+            "de": "<b>7. Wie schreibst (buchstabierst) du das Wort, das dir auf Isländisch am schwersten fällt?</b><br><br>Ich schreibe es Þ-V-O-T-T-A-V-É-L.<br><br>Ich schreibe es K-L-U-K-K-A-N.<br><br>Ich weiß nicht, wie man das Wort schreibt, es ist zu schwer.<br><br>Andere Antwort.",
+            "fr": "<b>7. Comment écris-tu le mot que tu as le plus de mal à prononcer en islandais ?</b><br><br>Je l'épelle Þ-V-O-T-T-A-V-É-L.<br><br>Je l'épelle K-L-U-K-K-A-N.<br><br>Je ne sais pas comment écrire le mot, c'est trop difficile.<br><br>Autre réponse."
+        }
+    },
+    { 
+        text: "hennar", 
+        is_exp: "<b>8. Hvað heitir mamma þín og hvenær er afmælisdagurinn hennar?</b><br><br>Mamma mín heitir Guðrún og afmælisdagurinn hennar er í janúar.<br><br>Hún heitir María og hún á afmæli á morgun.<br><br>Hún heitir Anna og afmælisdagurinn hennar er 5. maí.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>8. What is your mother's name and when is her birthday?</b><br><br>My mother's name is Guðrún and her birthday is in January.<br><br>Her name is María and her birthday is tomorrow.<br><br>Her name is Anna and her birthday is May 5th.<br><br>Another answer.",
+            "pl": "<b>8. Jak ma na imię twoja mama i kiedy są jej urodziny?</b><br><br>Moja mama ma na imię Guðrún, a jej urodziny są w styczniu.<br><br>Ma na imię María i jutro ma urodziny.<br><br>Ma na imię Anna, a jej urodziny to 5 maja.<br><br>Inna odpowiedź.",
+            "es": "<b>8. ¿Cómo se llama tu madre y cuándo es su cumpleaños?</b><br><br>Mi madre se llama Guðrún y su cumpleaños es en enero.<br><br>Se llama María y su cumpleaños es mañana.<br><br>Se llama Anna y su cumpleaños es el 5 de mayo.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>8. ما هو اسم والدتك ومتى يصادف عيد ميلادها؟</b><br><br>اسم أمي غوذرون وعيد ميلادها في شهر يناير.<br><br>اسمها ماريا وعيد ميلادها غداً.<br><br>اسمها آنا وعيد ميلادها في 5 مايو.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>8. Як звати твою маму і коли її день народження?</b><br><br>Мою маму звати Ґудрун, а її день народження в січні.<br><br>Її звати Марія, і її день народження завтра.<br><br>Її звати Анна, і її день народження 5 травня.<br><br>Інша відповідь.",
+            "tl": "<b>8. Ano ang pangalan ng nanay mo at kailan ang kanyang kaarawan?</b><br><br>Ang pangalan ng aking nanay ay Guðrún at ang kanyang kaarawan ay sa Enero.<br><br>Ang pangalan niya ay María at bukas ang kanyang kaarawan.<br><br>Ang pangalan niya ay Anna at ang kanyang kaarawan ay ika-5 ng Mayo.<br><br>Ibang sagot.",
+            "vi": "<b>8. Mẹ bạn tên là gì và sinh nhật của bà ấy là khi nào?</b><br><br>Mẹ tôi tên là Guðrún và sinh nhật của bà là vào tháng Giêng.<br><br>Bà ấy tên là María và sinh nhật của bà ấy là vào ngày mai.<br><br>Bà ấy tên là Anna và sinh nhật của bà là ngày 5 tháng 5.<br><br>Câu trả lời khác.",
+            "lt": "<b>8. Kuo vardu tavo mama ir kada jos gimtadienis?</b><br><br>Mano mamos vardas Guðrún ir jos gimtadienis yra sausį.<br><br>Jos vardas María ir jos gimtadienis rytoj.<br><br>Jos vardas Anna, o jos gimtadienis yra gegužės 5 d.<br><br>Kitas atsakymas.",
+            "lv": "<b>8. Kā sauc tavu mammu un kad ir viņas dzimšanas diena?</b><br><br>Manu mammu sauc Guðrún un viņas dzimšanas diena ir janvārī.<br><br>Viņu sauc María, un viņas dzimšanas diena ir rīt.<br><br>Viņu sauc Anna, un viņas dzimšanas diena ir 5. maijā.<br><br>Cita atbilde.",
+            "ru": "<b>8. Как зовут твою маму и когда у нее день рождения?</b><br><br>Мою маму зовут Гудрун, а ее день рождения в январе.<br><br>Ее зовут Мария, и ее день рождения завтра.<br><br>Ее зовут Анна, и ее день рождения 5 мая.<br><br>Другой ответ.",
+            "th": "<b>8. แม่ของคุณชื่ออะไรและวันเกิดของเธอคือเมื่อไหร่?</b><br><br>แม่ของฉันชื่อ Guðrún และวันเกิดของเธอคือเดือนมกราคม<br><br>เธอชื่อ María และวันเกิดของเธอคือวันพรุ่งนี้<br><br>เธอชื่อ Anna และวันเกิดของเธอคือวันที่ 5 พฤษภาคม<br><br>คำตอบอื่น",
+            "de": "<b>8. Wie heißt deine Mutter und wann hat sie Geburtstag?</b><br><br>Meine Mutter heißt Guðrún und ihr Geburtstag ist im Januar.<br><br>Sie heißt María und sie hat morgen Geburtstag.<br><br>Sie heißt Anna und ihr Geburtstag ist am 5. Mai.<br><br>Andere Antwort.",
+            "fr": "<b>8. Quel est le nom de ta mère et quand est son anniversaire ?</b><br><br>Ma mère s'appelle Guðrún et son anniversaire est en janvier.<br><br>Elle s'appelle María et son anniversaire est demain.<br><br>Elle s'appelle Anna et son anniversaire est le 5 mai.<br><br>Autre réponse."
+        }
+    },
+    { 
+        text: "fer", 
+        is_exp: "<b>9. Hvert fer fjölskyldan þín oft í fríum?</b><br><br>Fjölskyldan mín fer oft til Spánar í fríum.<br><br>Við förum oft í sumarbústað á Íslandi.<br><br>Fjölskyldan mín fer oftast til heimalandsins míns.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>9. Where does your family often go on holidays?</b><br><br>My family often goes to Spain on holidays.<br><br>We often go to a summer cabin in Iceland.<br><br>My family usually goes to my home country.<br><br>Another answer.",
+            "pl": "<b>9. Gdzie twoja rodzina często jeździ na wakacje?</b><br><br>Moja rodzina często jeździ do Hiszpanii na wakacje.<br><br>Często jeździmy do domku letniskowego na Islandii.<br><br>Moja rodzina zazwyczaj jeździ do mojego kraju ojczystego.<br><br>Inna odpowiedź.",
+            "es": "<b>9. ¿A dónde va tu familia a menudo de vacaciones?</b><br><br>Mi familia a menudo va a España de vacaciones.<br><br>A menudo vamos a una cabaña de verano en Islandia.<br><br>Mi familia suele ir a mi país de origen.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>9. إلى أين تذهب عائلتك غالباً في العطلات؟</b><br><br>عائلتي تذهب غالباً إلى إسبانيا في العطلات.<br><br>نذهب غالباً إلى كوخ صيفي في أيسلندا.<br><br>عائلتي تذهب عادة إلى بلدي الأصلي.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>9. Куди ваша родина часто їздить у відпустку?</b><br><br>Моя родина часто їздить до Іспанії у відпустку.<br><br>Ми часто їздимо до літнього будинку в Ісландії.<br><br>Моя сім'я зазвичай їздить до моєї рідної країни.<br><br>Інша відповідь.",
+            "tl": "<b>9. Saan madalas pumupunta ang iyong pamilya tuwing bakasyon?</b><br><br>Ang aking pamilya ay madalas pumunta sa Espanya tuwing bakasyon.<br><br>Madalas kaming pumunta sa isang summer cabin sa Iceland.<br><br>Karaniwang pumupunta ang aking pamilya sa aking sariling bansa.<br><br>Ibang sagot.",
+            "vi": "<b>9. Gia đình bạn thường đi nghỉ ở đâu?</b><br><br>Gia đình tôi thường đến Tây Ban Nha vào kỳ nghỉ.<br><br>Chúng tôi thường đến một ngôi nhà mùa hè ở Iceland.<br><br>Gia đình tôi thường về nước của tôi.<br><br>Câu trả lời khác.",
+            "lt": "<b>9. Kur tavo šeima dažnai vyksta atostogauti?</b><br><br>Mano šeima dažnai vyksta į Ispaniją atostogauti.<br><br>Mes dažnai vykstame į vasarnamį Islandijoje.<br><br>Mano šeima dažniausiai vyksta į mano gimtąją šalį.<br><br>Kitas atsakymas.",
+            "lv": "<b>9. Kur tava ģimene bieži dodas brīvdienās?</b><br><br>Mana ģimene brīvdienās bieži dodas uz Spāniju.<br><br>Mēs bieži braucam uz vasarnīcu Īslandē.<br><br>Mana ģimene parasti dodas uz manu dzimteni.<br><br>Cita atbilde.",
+            "ru": "<b>9. Куда твоя семья часто ездит на каникулах/в отпуск?</b><br><br>Моя семья часто ездит в Испанию в отпуск.<br><br>Мы часто ездим в летний домик (дачу) в Исландии.<br><br>Моя семья обычно ездит в мою родную страну.<br><br>Другой ответ.",
+            "th": "<b>9. ครอบครัวของคุณมักจะไปเที่ยวที่ไหนในวันหยุด?</b><br><br>ครอบครัวของฉันมักจะไปเที่ยวสเปนในวันหยุด<br><br>เรามักจะไปกระท่อมฤดูร้อนในไอซ์แลนด์<br><br>ครอบครัวของฉันมักจะไปที่ประเทศบ้านเกิดของฉัน<br><br>คำตอบอื่น",
+            "de": "<b>9. Wohin fährt deine Familie oft im Urlaub?</b><br><br>Meine Familie fährt im Urlaub oft nach Spanien.<br><br>Wir fahren oft in ein Sommerhaus in Island.<br><br>Meine Familie fährt meistens in mein Heimatland.<br><br>Andere Antwort.",
+            "fr": "<b>9. Où ta famille va-t-elle souvent en vacances ?</b><br><br>Ma famille va souvent en Espagne pour les vacances.<br><br>Nous allons souvent dans un chalet d'été en Islande.<br><br>Ma famille va généralement dans mon pays d'origine.<br><br>Autre réponse."
+        }
+    },
+    { 
+        text: "fór", 
+        is_exp: "<b>10. Hvað fór mikill tími í heimanám hjá þér í gær?</b><br><br>Það fór einn klukkutími í heimanám í gær.<br><br>Það fór hálftími í heimanám hjá mér í gær.<br><br>Það fór enginn tími, ég var ekki með heimanám.<br><br>Annað svar.",
+        translations: {
+            "en": "<b>10. How much time did you spend on homework yesterday?</b><br><br>I spent one hour on homework yesterday.<br><br>I spent half an hour on homework yesterday.<br><br>I spent no time, I didn't have any homework.<br><br>Another answer.",
+            "pl": "<b>10. Ile czasu poświęciłeś/aś wczoraj na zadanie domowe?</b><br><br>Spędziłem/am wczoraj godzinę na zadaniu domowym.<br><br>Wczoraj spędziłem/am pół godziny na zadaniu domowym.<br><br>Nie poświęciłem/am na to czasu, nie miałem/am zadania domowego.<br><br>Inna odpowiedź.",
+            "es": "<b>10. ¿Cuánto tiempo dedicaste a la tarea ayer?</b><br><br>Pasé una hora haciendo tarea ayer.<br><br>Ayer pasé media hora haciendo tarea.<br><br>No pasé nada de tiempo, no tenía tarea.<br><br>Otra respuesta.",
+            "ar": "<div dir='rtl'><b>10. كم من الوقت قضيته في أداء الواجب المنزلي بالأمس؟</b><br><br>قضيت ساعة واحدة في الواجب المنزلي بالأمس.<br><br>قضيت نصف ساعة في أداء الواجب المنزلي بالأمس.<br><br>لم أقض أي وقت، لم يكن لدي أي واجبات منزلية.<br><br>إجابة أخرى.</div>",
+            "uk": "<b>10. Скільки часу ти витратив на домашнє завдання вчора?</b><br><br>Вчора я витратив одну годину на домашнє завдання.<br><br>Вчора я витратив півгодини на домашнє завдання.<br><br>Я не витрачав часу, у мене не було домашнього завдання.<br><br>Інша відповідь.",
+            "tl": "<b>10. Gaano karaming oras ang ginugol mo sa takdang-aralin kahapon?</b><br><br>Gumugol ako ng isang oras sa takdang-aralin kahapon.<br><br>Gumugol ako ng kalahating oras sa takdang-aralin kahapon.<br><br>Hindi ako gumugol ng oras, wala akong takdang-aralin.<br><br>Ibang sagot.",
+            "vi": "<b>10. Hôm qua bạn dành bao nhiêu thời gian cho bài tập về nhà?</b><br><br>Hôm qua tôi dành một giờ cho bài tập về nhà.<br><br>Tôi đã dành nửa giờ cho bài tập về nhà ngày hôm qua.<br><br>Tôi không tốn thời gian nào, tôi không có bài tập về nhà.<br><br>Câu trả lời khác.",
+            "lt": "<b>10. Kiek laiko vakar praleidai darydamas namų darbus?</b><br><br>Vakar namų darbams skyriau vieną valandą.<br><br>Vakar namų darbams skyriau pusvalandį.<br><br>Neskaičiau tam laiko, namų darbų neturėjau.<br><br>Kitas atsakymas.",
+            "lv": "<b>10. Cik daudz laika tu vakar pavadīji, pildot mājasdarbus?</b><br><br>Vakar mājasdarbiem es pavadīju vienu stundu.<br><br>Vakar es pavadīju pusstundu mājasdarbiem.<br><br>Es nepavadīju laiku, man nebija mājasdarbu.<br><br>Cita atbilde.",
+            "ru": "<b>10. Сколько времени у тебя ушло на домашнее задание вчера?</b><br><br>Вчера я потратил один час на домашнее задание.<br><br>Вчера я потратил полчаса на домашнее задание.<br><br>Я не потратил нисколько времени, у меня не было домашнего задания.<br><br>Другой ответ.",
+            "th": "<b>10. เมื่อวานคุณใช้เวลาทำการบ้านไปเท่าไหร่?</b><br><br>เมื่อวานฉันใช้เวลาหนึ่งชั่วโมงทำการบ้าน<br><br>เมื่อวานฉันใช้เวลาทำการบ้านไปครึ่งชั่วโมง<br><br>ฉันไม่ได้ใช้เวลาเลย ฉันไม่มีการบ้าน<br><br>คำตอบอื่น",
+            "de": "<b>10. Wie viel Zeit hast du gestern mit Hausaufgaben verbracht?</b><br><br>Ich habe gestern eine Stunde mit Hausaufgaben verbracht.<br><br>Ich habe gestern eine halbe Stunde für Hausaufgaben gebraucht.<br><br>Ich habe keine Zeit verbracht, ich hatte keine Hausaufgaben.<br><br>Andere Antwort.",
+            "fr": "<b>10. Combien de temps as-tu passé sur tes devoirs hier ?</b><br><br>J'ai passé une heure sur mes devoirs hier.<br><br>J'ai passé une demi-heure sur mes devoirs hier.<br><br>Je n'ai pas passé de temps, je n'avais pas de devoirs.<br><br>Autre réponse."
+        }
+    }
+];
+
+let userScores = new Array(exerciseData.length).fill(null);
+let userSpoken = new Array(exerciseData.length).fill("");
+
+let currentIndex = 0;
+let recognition;
+let isRecording = false;
+let autoAdvanceTimer = null;
+let hasDownloadedCert = false;
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = 'is-IS';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    
+    recognition.onend = () => {
+        isRecording = false;
+        const btn = document.getElementById('record-btn');
+        if (btn) {
+            btn.innerText = "🎤 Tala";
+            btn.classList.remove('recording');
+        }
+        
+        const resDiv = document.getElementById('result');
+        if (resDiv && resDiv.innerText === "Hlusta...") {
+            resDiv.innerText = "";
+        }
+    };
+} else {
+    alert("Þessi vafri styður ekki talgreiningu. Notaðu Chrome eða Edge á tölvu.");
+}
+
+window.onload = () => { 
+    updateUI(); 
+};
+
+function updateProgress() {
+    let correctCount = 0;
+    for (let i = 0; i < userScores.length; i++) {
+        if (userScores[i] === 100) {
+            correctCount++;
+        }
+    }
+    const percent = (correctCount / exerciseData.length) * 100;
+    
+    const progressBar = document.getElementById('progress-bar');
+    if(progressBar) {
+        progressBar.style.width = percent + '%';
+    }
+    return correctCount;
+}
+
+function findNextUnfinished() {
+    for (let i = 0; i < userScores.length; i++) {
+        if (userScores[i] !== 100) {
+            currentIndex = i;
+            break;
+        }
+    }
+    
+    document.getElementById('app').innerHTML = `
+        <h1>3.3.4. Samtal: 121 - 130 algengustu orðin</h1>
+        <p style="color: #666; font-size: 1.1em; margin-bottom: 25px;">Spurningar fyrir munnlega æfingu. 💻 🎧</p>
+        <div class="progress-container"><div id="progress-bar"></div></div>
+        
+        <div class="lang-selector">
+            <label for="languageSelect"><b>🌍 Tungumál:</b></label>
+            <select id="languageSelect" onchange="updateUI()">
+                <option value="" selected disabled>Veldu tungumál...</option>
+                <option value="ar">Arabíska – العربية</option>
+                <option value="en">Enska – English</option>
+                <option value="tl">Filippseyska – Tagalog</option>
+                <option value="fr">Franska – Français</option>
+                <option value="nl">Hollenska – Nederlands</option>
+                <option value="it">Ítalska – Italiano</option>
+                <option value="ja">Japanska – 日本語</option>
+                <option value="zh">Kínverska – 中文</option>
+                <option value="lv">Lettneska – Latviešu</option>
+                <option value="lt">Litháíska – Lietuvių</option>
+                <option value="no">Norska – Norsk</option>
+                <option value="fa">Persneska – فارسی</option>
+                <option value="pt">Portúgalska – Português</option>
+                <option value="pl">Pólska – Polski</option>
+                <option value="ro">Rúmenska – Română</option>
+                <option value="ru">Rússneska – Русский</option>
+                <option value="es">Spænska – Español</option>
+                <option value="sv">Sænska – Svenska</option>
+                <option value="th">Tælenska – ภาษาไทย</option>
+                <option value="de">Þýska – Deutsch</option>
+                <option value="uk">Úkraínska – Українська</option>
+                <option value="vi">Víetnamska – Tiếng Việt</option>
+            </select>
+        </div>
+
+        <div id="counter"></div>
+        <div id="target"></div>
+        <div id="is-explanation"></div>
+        <br>
+        <button id="record-btn" class="btn" onclick="toggleRecord()">🎤 Tala</button>
+        <div id="spoken"></div>
+        <div id="result"></div>
+        <div id="media-box"></div>
+        <div class="nav-btns">
+            <button class="btn" style="background-color: #5f6368;" onclick="prevExercise()">⬅️ Fyrri</button>
+            <button class="btn" style="background-color: #5f6368;" onclick="nextExercise()">Næsta ➡️</button>
+        </div>
+        <div class="feedback-note">
+            Vinsamlegast sendið ábendingar á <a href="mailto:dgu@fb.is">dgu@fb.is</a>
+        </div>
+    `;
+    updateUI();
+}
+
+function updateUI() {
+    clearTimeout(autoAdvanceTimer); 
+    const correctCount = updateProgress();
+
+    if (currentIndex >= exerciseData.length) {
+        if (correctCount === exerciseData.length) {
+            document.getElementById('app').innerHTML = `
+                <div class="progress-container"><div id="progress-bar" style="width: 100%;"></div></div>
+                <h1 style="color: #34a853; font-size: 2.5em;">Frábært! Þú náðir 100% árangri! 🎉</h1>
+                <p style="font-size: 1.2em; color: #555;">Skrifaðu nafnið þitt hér að neðan til að sækja viðurkenningarskjalið þitt.</p>
+                <input type="text" id="studentName" placeholder="Skrifaðu nafnið þitt hér" autocomplete="off" ${hasDownloadedCert ? 'disabled' : ''}><br>
+                <button id="cert-btn" class="btn" style="background-color: ${hasDownloadedCert ? '#5f6368' : '#1a73e8'}; font-size: 1.5em; padding: 15px 30px; margin-top: 10px; cursor: ${hasDownloadedCert ? 'not-allowed' : 'pointer'}; opacity: ${hasDownloadedCert ? '0.7' : '1'};" onclick="downloadCert()" ${hasDownloadedCert ? 'disabled' : ''}>
+                    ${hasDownloadedCert ? '✅ Skjal sótt' : '🏆 Sækja viðurkenningarskjal'}
+                </button>
+                <br><br>
+                <button class="btn" style="background-color: #5f6368;" onclick="location.reload()">🔄 Byrja nýja umferð</button>
+                <div class="feedback-note">
+                    Vinsamlegast sendið ábendingar á <a href="mailto:dgu@fb.is">dgu@fb.is</a>
+                </div>
+            `;
+        } else {
+            document.getElementById('app').innerHTML = `
+                <div class="progress-container"><div id="progress-bar" style="width: ${(correctCount/exerciseData.length)*100}%;"></div></div>
+                <h1 style="color: #fbbc05; font-size: 2em;">Þú ert næstum því búin(n)!</h1>
+                <p style="font-size: 1.2em;">Þú hefur klárað ${correctCount} af${exerciseData.length} orðum með 100% árangri.</p>
+                <p style="font-size: 1.1em; color: #555;">Farðu til baka og reyndu aftur við þau orð sem vantaði upp á til að fá skjalið.</p>
+                <button class="btn" style="background-color: #fbbc05; color: #000;" onclick="findNextUnfinished()">➡️ Fara á orð sem vantar</button>
+                <div class="feedback-note">
+                    Vinsamlegast sendið ábendingar á <a href="mailto:dgu@fb.is">dgu@fb.is</a>
+                </div>
+            `;
+        }
+        return;
+    }
+
+    const curr = exerciseData[currentIndex];
+    
+    const langSelect = document.getElementById('languageSelect');
+    const selectedLang = langSelect ? langSelect.value : '';
+
+    document.getElementById('target').innerHTML = curr.text;
+    document.getElementById('is-explanation').innerHTML = curr.is_exp;
+    document.getElementById('counter').innerText = `Spurning ${currentIndex + 1} af${exerciseData.length}`;
+    
+    if (!selectedLang) {
+        document.getElementById('media-box').innerHTML = "<i>Veldu tungumál úr listanum að ofan til að sjá þýðingu.</i>";
+    } else {
+        document.getElementById('media-box').innerHTML = curr.translations[selectedLang] || "Þýðing vantar / Translation missing";
+    }
+
+    const savedScore = userScores[currentIndex];
+    const savedText = userSpoken[currentIndex];
+
+    if (savedScore !== null) {
+        document.getElementById('result').innerText = `Einkunn: ${savedScore}%`;
+        document.getElementById('spoken').innerText = `Þú sagðir: "${savedText}"`;
+    } else {
+        document.getElementById('result').innerText = "";
+        document.getElementById('spoken').innerText = "";
+    }
+}
+
+function nextExercise() {
+    currentIndex++;
+    updateUI();
+}
+
+function prevExercise() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateUI();
+    }
+}
+
+function toggleRecord() {
+    if (!recognition) return;
+
+    const btn = document.getElementById('record-btn');
+    if (isRecording) {
+        recognition.stop();
+    } else {
+        try {
+            recognition.start();
+            isRecording = true;
+            btn.innerText = "🛑 Hlusta...";
+            btn.classList.add('recording');
+            document.getElementById('result').innerText = "Hlusta...";
+            document.getElementById('spoken').innerText = "";
+        } catch(e) {
+            console.log("Villa í upptöku: " + e);
+        }
+    }
+}
+
+if (recognition) {
+    recognition.onresult = (event) => {
+        let spoken = event.results[0][0].transcript;
+        spoken = spoken.trim().toLowerCase(); 
+
+        document.getElementById('spoken').innerText = `Þú sagðir: "${spoken}"`;
+        
+        const targetWord = exerciseData[currentIndex].text.toLowerCase();
+        
+        let score = (spoken === targetWord) ? 100 : 0;
+        
+        if (spoken.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"").trim() === targetWord) {
+            score = 100;
+        }
+        
+        document.getElementById('result').innerText = `Einkunn: ${score}%`;
+
+        userScores[currentIndex] = score;
+        userSpoken[currentIndex] = spoken;
+        
+        updateProgress();
+
+        if (score === 100) {
+            autoAdvanceTimer = setTimeout(() => {
+                nextExercise();
+            }, 1500); 
+        }
+    };
+}
+
+function downloadCert() {
+    if (hasDownloadedCert) return; 
+
+    const studentNameInput = document.getElementById('studentName');
+    const studentName = studentNameInput ? studentNameInput.value.trim() : "";
+    
+    if (studentName === "") {
+        alert("Vinsamlegast skrifaðu nafnið þitt fyrst!");
+        return;
+    }
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 900;
+    canvas.height = 600;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.strokeStyle = '#1a73e8';
+    ctx.lineWidth = 15;
+    ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+
+    ctx.strokeStyle = '#fbbc05';
+    ctx.lineWidth = 5;
+    ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
+    
+    ctx.fillStyle = '#1a73e8';
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 50px Arial';
+    ctx.fillText('Viðurkenning', canvas.width / 2, 140);
+    
+    ctx.fillStyle = '#333333';
+    ctx.font = '24px Arial';
+    ctx.fillText('Þetta skjal staðfestir að', canvas.width / 2, 220);
+    
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 45px Arial';
+    ctx.fillText(studentName, canvas.width / 2, 290);
+    
+    ctx.fillStyle = '#333333';
+    ctx.font = '24px Arial';
+    ctx.fillText('hefur lokið æfingunni með glæsibrag:', canvas.width / 2, 360);
+
+    ctx.fillStyle = '#1a73e8';
+    ctx.font = 'bold 26px Arial';
+    ctx.fillText('3.3.4. Samtal: 121 - 130 algengustu orðin', canvas.width / 2, 420);
+    
+    ctx.fillStyle = '#34a853';
+    ctx.font = 'italic 28px Arial';
+    ctx.fillText('Frábær árangur! Haltu áfram að æfa þig.', canvas.width / 2, 490);
+
+    const dateString = new Date().toLocaleDateString('is-IS');
+    ctx.fillStyle = '#666666';
+    ctx.font = '18px Arial';
+    ctx.fillText('Dagsetning: ' + dateString, canvas.width / 2, 540);
+    
+    const link = document.createElement('a');
+    link.download = `Vidurkenning_${studentName.replace(/\s+/g, '_')}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    
+    hasDownloadedCert = true;
+    const btn = document.getElementById('cert-btn');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "✅ Skjal sótt";
+        btn.style.backgroundColor = "#5f6368";
+        btn.style.cursor = "not-allowed";
+        btn.style.opacity = "0.7";
+    }
+    if (studentNameInput) {
+        studentNameInput.disabled = true;
+    }
+}
+</script>
+
+</body>
+</html>
